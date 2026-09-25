@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NOVOUR. — Literatur trifft Gastlichkeit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    box-sizing:border-box;
+    --bg:#f4ece0;
+    --bg-card:#fbf7f0;
+    --text:#2b241e;
+    --muted:#6f645a;
+    --accent:#7c2d3a;
+    --accent-2:#a4525d;
+    --line:#c9ac7c;
+    --line-soft:#e2d3b8;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#211c18; --bg-card:#2b241f; --text:#f0e8dc; --muted:#b9ab9a;
+      --accent:#d98d96; --accent-2:#c46b75; --line:#8a6f45; --line-soft:#4a3f30;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#211c18; --bg-card:#2b241f; --text:#f0e8dc; --muted:#b9ab9a;
+    --accent:#d98d96; --accent-2:#c46b75; --line:#8a6f45; --line-soft:#4a3f30;
+  }
+  html{scroll-padding-top:70px; scroll-behavior:smooth;}
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-weight:300; line-height:1.65; -webkit-font-smoothing:antialiased; overflow-x:hidden; position:relative;}
+  h1,h2,h3{font-family:'Playfair Display',serif; font-weight:500; margin:0 0 .4em 0; color:var(--text);}
+  a{color:inherit;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+  .eyebrow{text-transform:uppercase; letter-spacing:.14em; font-size:.72rem; color:var(--accent); font-weight:600; margin-bottom:.9em;}
+
+  .bg-decor{position:fixed; inset:0; z-index:-2; overflow:hidden; pointer-events:none;}
+  .bg-decor::before{content:""; position:absolute; inset:0; background-image:radial-gradient(circle, var(--line) 1px, transparent 1px); background-size:28px 28px; opacity:.3;}
+  .blob{position:absolute; border-radius:50%; filter:blur(90px); opacity:.22; background:radial-gradient(circle at 30% 30%, var(--accent-2), var(--accent));}
+  .b1{width:420px; height:420px; top:-120px; left:-100px; animation:drift1 26s ease-in-out infinite alternate;}
+  .b2{width:520px; height:520px; bottom:-180px; right:-140px; animation:drift2 32s ease-in-out infinite alternate;}
+  .b3{width:300px; height:300px; top:40%; left:60%; opacity:.14; animation:drift3 22s ease-in-out infinite alternate;}
+  @keyframes drift1{0%{transform:translate(0,0) scale(1);}100%{transform:translate(60px,50px) scale(1.15);}}
+  @keyframes drift2{0%{transform:translate(0,0) scale(1);}100%{transform:translate(-50px,-40px) scale(1.1);}}
+  @keyframes drift3{0%{transform:translate(0,0) rotate(0deg);}100%{transform:translate(-40px,30px) rotate(20deg);}}
+  #glow{position:fixed; top:0; left:0; width:180px; height:180px; border-radius:50%; pointer-events:none; z-index:4; transform:translate(-50%,-50%); opacity:0; transition:opacity .35s; background:radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 70%);}
+  .progress{position:fixed; top:0; left:0; height:3px; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); z-index:60;}
+
+  header{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter:blur(10px); padding-top:env(safe-area-inset-top,0px); border-bottom:1px solid var(--line-soft);}
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:1080px; margin:0 auto;}
+  .logo{font-family:'Playfair Display',serif; font-size:1.4rem; letter-spacing:.02em; color:var(--accent); transition:letter-spacing .3s;}
+  .logo:hover{letter-spacing:.06em;}
+  .navlinks{display:none; gap:26px; font-size:.85rem; letter-spacing:.02em;}
+  @media (min-width:820px){ .navlinks{display:flex;} }
+  .navlinks a{position:relative; text-decoration:none; color:var(--muted); transition:color .25s; padding-bottom:4px;}
+  .navlinks a::after{content:""; position:absolute; left:0; bottom:0; height:1px; width:0; background:var(--accent); transition:width .28s ease;}
+  .navlinks a:hover, .navlinks a.active{color:var(--accent);}
+  .navlinks a:hover::after, .navlinks a.active::after{width:100%;}
+  .burger{display:block; background:none; border:1px solid var(--line); color:var(--text); padding:8px 12px; border-radius:2px; font-family:'Inter',sans-serif; font-size:.8rem; cursor:pointer; transition:.25s;}
+  .burger:hover{border-color:var(--accent); color:var(--accent);}
+  @media (min-width:820px){ .burger{display:none;} }
+  #mobilenav{display:none; flex-direction:column; padding:0 28px 18px; gap:14px;}
+  #mobilenav.open{display:flex;}
+  #mobilenav a{text-decoration:none; color:var(--muted); font-size:.95rem; transition:color .2s;}
+  #mobilenav a:hover{color:var(--accent);}
+
+  .hero{padding:96px 0 74px; text-align:center;}
+  .hero h1{font-size:clamp(2.1rem,5vw,3.4rem); max-width:780px; margin:0 auto .5em; font-style:italic; font-weight:400; transition:transform .1s ease-out;}
+  .hero p.lead{max-width:560px; margin:0 auto 2.2em; color:var(--muted); font-size:1.05rem;}
+  .btn{display:inline-block; background:var(--accent); color:#fbf7f0; text-decoration:none; padding:14px 30px; font-size:.85rem; letter-spacing:.05em; text-transform:uppercase; border-radius:2px; transition:background .25s, transform .2s, box-shadow .3s;}
+  .btn:hover{background:var(--accent-2); transform:translateY(-3px); box-shadow:0 12px 24px -10px rgba(0,0,0,.35);}
+  .btn.ghost{background:transparent; border:1px solid var(--accent); color:var(--accent); margin-left:12px;}
+  .btn.ghost:hover{background:var(--accent); color:#fbf7f0;}
+
+  section{padding:72px 0;}
+  section.alt{background:color-mix(in srgb, var(--bg-card) 92%, transparent); border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);}
+  .section-head{text-align:center; max-width:640px; margin:0 auto 3em;}
+  .section-head h2{font-size:clamp(1.7rem,3.4vw,2.3rem);}
+  .section-head p{color:var(--muted); font-size:.98rem;}
+
+  .grid3{display:grid; grid-template-columns:1fr; border:1px solid var(--line-soft); border-radius:6px; overflow:hidden;}
+  @media (min-width:760px){ .grid3{grid-template-columns:1fr 1fr 1fr;} }
+  .grid3 .col{padding:34px 30px; border-top:1px solid var(--line-soft); transition:background .3s, transform .3s;}
+  @media (min-width:760px){ .grid3 .col{border-top:none; border-left:1px solid var(--line-soft);} .grid3 .col:first-child{border-left:none;} }
+  .grid3 .col:hover{background:color-mix(in srgb, var(--accent) 6%, var(--bg-card)); transform:translateY(-4px);}
+  .grid3 .col h3{font-size:1.15rem; color:var(--accent); margin-bottom:.6em;}
+  .grid3 .col ul{margin:0; padding:0; list-style:none; color:var(--muted); font-size:.93rem;}
+  .grid3 .col li{padding:6px 0; border-top:1px solid var(--line-soft); transition:color .25s, padding-left .25s;}
+  .grid3 .col li:first-child{border-top:none;}
+  .grid3 .col li:hover{color:var(--accent); padding-left:6px;}
+
+  .cards2{display:grid; grid-template-columns:1fr; gap:24px;}
+  @media (min-width:760px){ .cards2{grid-template-columns:1fr 1fr;} }
+  .card{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px; padding:34px 32px; transition:transform .35s ease, box-shadow .35s ease, border-color .35s;}
+  .card:hover{transform:translateY(-8px); box-shadow:0 18px 34px -18px rgba(0,0,0,.28); border-color:var(--accent);}
+  .card .tag{font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:.8em;}
+  .card h3{font-size:1.4rem; margin-bottom:.5em;}
+  .card p{color:var(--muted); font-size:.95rem;}
+
+  .timeline{display:grid; grid-template-columns:1fr; gap:0;}
+  @media (min-width:760px){ .timeline{grid-template-columns:repeat(4,1fr);} }
+  .step{position:relative; padding:0 20px 30px; text-align:center;}
+  .step .num{width:40px; height:40px; border-radius:50%; border:1px solid var(--accent); color:var(--accent); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-family:'Playfair Display',serif; font-size:1.1rem; transition:.3s;}
+  .step:hover .num{background:var(--accent); color:#fbf7f0; transform:scale(1.12);}
+  .step h4{font-size:1rem; margin-bottom:.4em; font-family:'Inter',sans-serif; font-weight:600;}
+  .step p{color:var(--muted); font-size:.88rem; margin:0;}
+  @media (min-width:760px){ .step::after{content:""; position:absolute; top:20px; left:calc(50% + 30px); right:calc(-50% + 30px); height:1px; background:var(--line-soft);} .step:last-child::after{display:none;} }
+
+  .ideas{display:grid; grid-template-columns:1fr; gap:20px;}
+  @media (min-width:600px){ .ideas{grid-template-columns:1fr 1fr;} }
+  @media (min-width:960px){ .ideas{grid-template-columns:1fr 1fr 1fr;} }
+  .idea{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px; padding:26px 24px; transition:transform .3s, box-shadow .3s, border-color .3s;}
+  .idea:hover{transform:translateY(-6px); box-shadow:0 16px 30px -18px rgba(0,0,0,.3); border-color:var(--accent);}
+  .icon-circle{width:50px; height:50px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; margin-bottom:16px; color:var(--accent); transition:all .35s;}
+  .icon-circle svg{width:22px; height:22px;}
+  .idea:hover .icon-circle{background:var(--accent); color:#fbf7f0; border-color:var(--accent); transform:rotate(8deg) scale(1.08);}
+  .idea h4{font-family:'Inter',sans-serif; font-weight:600; font-size:1rem; margin:0 0 .4em;}
+  .idea p{color:var(--muted); font-size:.88rem; margin:0;}
+
+  .gallery-slideshow{max-width:880px; margin:0 auto;}
+  .gallery-viewport{overflow:hidden; border-radius:8px; border:1px solid var(--line-soft);}
+  .gallery-track{display:flex; transition:transform .5s cubic-bezier(.4,0,.2,1);}
+  .gallery-slide{display:flex; min-width:100%;}
+  .gallery-photo{width:50%; aspect-ratio:4/3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:var(--muted); font-size:.78rem; letter-spacing:.06em; text-transform:uppercase;}
+  .gallery-photo + .gallery-photo{border-left:1px solid var(--line-soft);}
+  .gallery-photo svg{width:26px; height:26px; opacity:.5;}
+  .gallery-controls{display:flex; align-items:center; justify-content:center; gap:22px; margin-top:24px;}
+  .gallery-arrow{width:42px; height:42px; border-radius:50%; border:1px solid var(--line); background:transparent; color:var(--text); font-size:1.05rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.3s; font-family:'Inter',sans-serif;}
+  .gallery-arrow:hover{background:var(--accent); border-color:var(--accent); color:#fbf7f0; transform:scale(1.08);}
+  .gallery-dots{display:flex; align-items:center; gap:8px;}
+  .gallery-dots .dot{width:8px; height:8px; border-radius:50%; background:var(--line-soft); border:none; cursor:pointer; padding:0; transition:.3s;}
+  .gallery-dots .dot.active{background:var(--accent); width:22px; border-radius:4px;}
+
+  .founder{display:grid; grid-template-columns:1fr; gap:36px; align-items:center;}
+  @media (min-width:760px){ .founder{grid-template-columns:200px 1fr;} }
+  .avatar{width:170px; height:170px; border-radius:50%; margin:0 auto; background:linear-gradient(135deg, var(--accent), var(--accent-2)); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; color:#fbf7f0; font-size:2.6rem; font-style:italic; transition:transform .4s ease;}
+  .avatar:hover{transform:rotate(-6deg) scale(1.05);}
+  .founder-text .eyebrow{margin-bottom:.3em;}
+  .founder-text h3{font-size:1.5rem;}
+  .founder-text p{color:var(--muted); font-size:.96rem;}
+
+  details{border-bottom:1px solid var(--line-soft); padding:18px 0;}
+  summary{cursor:pointer; font-weight:500; list-style:none; display:flex; justify-content:space-between; align-items:center; font-size:1rem; transition:color .25s;}
+  summary:hover{color:var(--accent);}
+  summary::-webkit-details-marker{display:none;}
+  .plus{position:relative; width:16px; height:16px; flex:0 0 16px; margin-left:12px;}
+  .plus::before, .plus::after{content:""; position:absolute; background:var(--accent); top:50%; left:50%; transform:translate(-50%,-50%);}
+  .plus::before{width:16px; height:1.5px;}
+  .plus::after{width:1.5px; height:16px; transition:transform .3s ease;}
+  details[open] .plus::after{transform:translate(-50%,-50%) rotate(90deg); opacity:0;}
+  details p{color:var(--muted); font-size:.92rem; margin:.8em 0 0;}
+
+  .contact-box{background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#fbf7f0; border-radius:8px; padding:52px 40px; text-align:center; position:relative; overflow:hidden;}
+  .contact-box h2{color:#fbf7f0; font-style:italic;}
+  .contact-box p{color:#f1dfe1; max-width:520px; margin:0 auto 1.8em;}
+  .contact-box .btn{background:#fbf7f0; color:var(--accent);}
+  .contact-box .btn:hover{background:#fff; box-shadow:0 12px 24px -10px rgba(0,0,0,.4);}
+
+  footer{padding:40px 0; text-align:center; color:var(--muted); font-size:.82rem;}
+
+  .fade-up{opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease;}
+  .fade-up.in{opacity:1; transform:translateY(0);}
+  [data-tilt]{will-change:transform;}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="bg-decor"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
+<div id="glow"></div>
+
+<header>
+  <div class="nav">
+    <div class="logo">NOVOUR.</div>
+    <nav class="navlinks">
+      <a href="#ansatz">Ansatz</a>
+      <a href="#formate">Formate</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#ideen">Ideen</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#gruenderin">Über uns</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <button class="burger" onclick="document.getElementById('mobilenav').classList.toggle('open')">Menü</button>
+  </div>
+  <div id="mobilenav">
+    <a href="#ansatz">Ansatz</a>
+    <a href="#formate">Formate</a>
+    <a href="#ablauf">Ablauf</a>
+    <a href="#ideen">Ideen</a>
+    <a href="#galerie">Galerie</a>
+    <a href="#gruenderin">Über uns</a>
+    <a href="#kontakt">Kontakt</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1 id="heroTitle">Literatur trifft Gastlichkeit.</h1>
+    <p class="lead">NOVOUR. bringt Autor:innen und Gastronomien zusammen, die einfach zueinander passen. Zwei Handschriften, ein gemeinsamer Abend.</p>
+    <a class="btn" href="#kontakt">Partner werden</a>
+    <a class="btn ghost" href="#formate">Formate entdecken</a>
+  </div>
+</section>
+
+<section id="ansatz">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Der NOVOUR.-Ansatz</div>
+      <h2>Drei Seiten, ein Zusammenspiel</h2>
+      <p>Literatur und Gastronomie treffen sich auf Augenhöhe. Jede Seite bringt das ein, was sie am besten kann.</p>
+    </div>
+    <div class="grid3 fade-up">
+      <div class="col"><h3>Das Werk</h3><ul><li>Werk und eigene Stimme</li><li>Lesemomente und Gespräch</li><li>Fragerunde und Signieren</li></ul></div>
+      <div class="col"><h3>Das Haus</h3><ul><li>Küche, Bar und Service</li><li>Raum und Atmosphäre</li><li>Ticketing und Durchführung</li></ul></div>
+      <div class="col"><h3>NOVOUR.</h3><ul><li>Matching und Kontakt</li><li>Impulse und Abstimmung</li><li>Kommunikation und Begleitung</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="formate">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Zwei Formate. Gemeinsam entwickelt.</div>
+      <h2>Raum für Begegnung</h2>
+      <p>Wie groß und wie persönlich der Abend wird, hängt von der Autorin oder dem Autor, dem Buch und den Möglichkeiten Ihres Hauses ab.</p>
+    </div>
+    <div class="cards2 fade-up">
+      <div class="card" data-tilt>
+        <div class="tag">01 · Persönlich &amp; nah</div>
+        <h3>Meet &amp; Greet</h3>
+        <p>Ein persönliches Kennenlernen mit Gespräch, Fragen und Signieren. Ihr Haus gestaltet den passenden gastronomischen Rahmen, vom Kaffee und Kuchen bis zum ausgewählten Drink. NOVOUR. vermittelt die passende Autor:innenseite und stimmt Format, Termin und Rahmen mit beiden Seiten ab.</p>
+      </div>
+      <div class="card" data-tilt>
+        <div class="tag">02 · Atmosphärisch &amp; buchbezogen</div>
+        <h3>Literary Experience</h3>
+        <p>Literatur und Gastronomie gestalten den Abend gleichwertig: Lesemomente, Gespräch und Signieren treffen auf Küche, Getränke, Service und Atmosphäre Ihres Hauses. NOVOUR. liest das Werk und entwickelt verbindende Impulse. Wie Sie das gastronomisch umsetzen, bleibt ganz Ihre kreative Entscheidung.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ablauf">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">So funktioniert's</div>
+      <h2>Vom ersten Kontakt zum Abend</h2>
+      <p>Die Vorbereitung läuft größtenteils remote. Wenn Sie möchten, vereinbaren wir gerne auch eine Moderation oder persönliche Betreuung vor Ort.</p>
+    </div>
+    <div class="timeline fade-up">
+      <div class="step"><div class="num">1</div><h4>Kennenlernen</h4><p>Kurzer Austausch über Haus, Wünsche und Möglichkeiten.</p></div>
+      <div class="step"><div class="num">2</div><h4>Matching</h4><p>NOVOUR. sucht die passende Autor:innenseite für Ihr Haus.</p></div>
+      <div class="step"><div class="num">3</div><h4>Abstimmung</h4><p>Wir legen gemeinsam Format, Termin und Rahmen fest.</p></div>
+      <div class="step"><div class="num">4</div><h4>Der Abend</h4><p>Literatur und Gastlichkeit treffen sich auf Augenhöhe.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="ideen">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Weitergedacht</div>
+      <h2>Ideen für die Zusammenarbeit</h2>
+      <p>Ein paar Anregungen, wie sich die Partnerschaft über einzelne Abende hinaus entwickeln lässt.</p>
+    </div>
+    <div class="ideas fade-up">
+      <div class="idea" data-tilt><div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-1.5-5.5-1.5-8-.5v13.5c2.5-1 6-1 8 .5"/><path d="M12 6c2-1.5 5.5-1.5 8-.5v13.5c-2.5-1-6-1-8 .5"/><path d="M12 6v13.5"/></svg></div><h4>Buchclub-Kooperation</h4><p>Ein monatlicher Leseabend im Haus, begleitet von einem passenden Menü oder Drink-Pairing zum Buch des Monats.</p></div>
+      <div class="idea" data-tilt><div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4 2 6 5.5 6 9a6 6 0 01-12 0c0-3.5 2-7 6-9z"/><path d="M12 12v9"/></svg></div><h4>Saisonale Themenabende</h4><p>Literatur passend zur Jahreszeit, von Krimi-Nächten im Herbst bis zu Sommerlesungen auf der Terrasse.</p></div>
+      <div class="idea" data-tilt><div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><h4>Signierstunden</h4><p>Kurzformat tagsüber, ideal für Cafés und Bäckereien mit Laufkundschaft.</p></div>
+      <div class="idea" data-tilt><div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0014 0"/><path d="M12 19v3"/><path d="M8 22h8"/></svg></div><h4>Podcast-Ableger</h4><p>Aufgezeichnete Gespräche aus den Abenden als Podcast, für zusätzliche Reichweite bei Haus und Autor:in.</p></div>
+      <div class="idea" data-tilt><div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8l-1 7a3 3 0 01-6 0L8 2z"/><path d="M12 13v7"/><path d="M8 20h8"/></svg></div><h4>Buch-Pairing-Menüs</h4><p>Ein von der Küche entwickeltes Menü, das thematisch auf das jeweilige Werk abgestimmt ist.</p></div>
+      <div class="idea" data-tilt><div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a5 5 0 007 0l2-2a5 5 0 00-7-7l-1 1"/><path d="M14 10a5 5 0 00-7 0l-2 2a5 5 0 007 7l1-1"/></svg></div><h4>Partner-Programm</h4><p>Wiederkehrende Häuser erhalten bevorzugten Zugang zu neuen Autor:innen und Terminen.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="galerie">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Einblicke</div>
+      <h2>Galerie</h2>
+      <p>Ein Blick auf Stimmung und Atmosphäre vergangener und kommender Abende.</p>
+    </div>
+    <div class="gallery-slideshow fade-up">
+      <div class="gallery-viewport">
+        <div class="gallery-track" id="galleryTrack"></div>
+      </div>
+      <div class="gallery-controls">
+        <button class="gallery-arrow" id="galleryPrev" aria-label="Vorheriges Bild">&lt;</button>
+        <div class="gallery-dots" id="galleryDots"></div>
+        <button class="gallery-arrow" id="galleryNext" aria-label="Nächstes Bild">&gt;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="gruenderin">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Die Gründerin</div>
+      <h2>Xenia-Luisa Heinrich</h2>
+    </div>
+    <div class="founder fade-up">
+      <div class="avatar">XH</div>
+      <div class="founder-text">
+        <p>Mein beruflicher Hintergrund liegt in der Gastronomie; als Buchbloggerin bin ich zugleich in der Buchwelt zu Hause. Aus der Verbindung beider Perspektiven ist NOVOUR. entstanden.</p>
+        <p>Meine Mission ist es, beide kreativen Welten auf Augenhöhe zusammenzubringen. Autor:innen und Häuser behalten dabei ihre eigene Handschrift, und genau damit sollen beide glänzen.</p>
+        <p>NOVOUR. ist ein Startup aus Gelsenkirchen und startet im Oktober 2026.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Häufige Fragen</div>
+      <h2>Gut zu wissen</h2>
+    </div>
+    <div style="max-width:680px; margin:0 auto;" class="fade-up">
+      <details open><summary>Welche Häuser passen zu NOVOUR.?<span class="plus"></span></summary><p>Vom kleinen Café bis zum Restaurant mit gehobener Küche ist vieles möglich. Wichtig ist vor allem die Offenheit, literarische Abende mit der eigenen gastronomischen Handschrift zu gestalten.</p></details>
+      <details><summary>Wie viel Aufwand entsteht für mein Haus?<span class="plus"></span></summary><p>Die inhaltliche Vorbereitung übernimmt größtenteils NOVOUR. Ihr Haus bringt Raum, Küche und Service ein, den genauen Umfang stimmen wir gemeinsam ab.</p></details>
+      <details><summary>Wie werden Autor:innen ausgewählt?<span class="plus"></span></summary><p>Wir schauen uns Werk, Zielgruppe und den Charakter Ihres Hauses an und vermitteln dazu passende Autor:innen. Der Termin richtet sich dann nach Verfügbarkeit.</p></details>
+      <details><summary>Ist eine Moderation vor Ort möglich?<span class="plus"></span></summary><p>Ja, klar. Moderation oder persönliche Betreuung vor Ort vereinbaren wir bei Bedarf gerne gesondert.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="wrap">
+    <div class="contact-box fade-up">
+      <div class="eyebrow" style="color:#f1dfe1;">Lernen wir uns kennen</div>
+      <h2>Werden Sie NOVOUR.-Gastronomiepartner</h2>
+      <p>Schreiben Sie einfach zurück, ganz unverbindlich und persönlich, für einen ersten Austausch.</p>
+      <a class="btn" href="mailto:hallo@novour.de">Jetzt Kontakt aufnehmen</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span style="font-family:'Playfair Display',serif; color:var(--accent); font-size:1.1rem; display:block; margin-bottom:8px;">NOVOUR.</span>
+    Literatur trifft Gastlichkeit · Gelsenkirchen · Launch Oktober 2026
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const els = document.querySelectorAll('.fade-up');
+  const io = new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');}});},{threshold:.15});
+  els.forEach(el=>io.observe(el));
+
+  // scroll progress
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', ()=>{
+    const h = document.documentElement;
+    const p = (h.scrollTop)/(h.scrollHeight - h.clientHeight) * 100;
+    progress.style.width = p + '%';
+  });
+
+  // active nav link
+  const navA = document.querySelectorAll('.navlinks a');
+  const sections = [...navA].map(a=>document.querySelector(a.getAttribute('href')));
+  const navIO = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const idx = sections.indexOf(entry.target);
+      if(entry.isIntersecting && idx>-1){
+        navA.forEach(a=>a.classList.remove('active'));
+        navA[idx].classList.add('active');
+      }
+    });
+  },{rootMargin:'-40% 0px -50% 0px'});
+  sections.forEach(s=>{ if(s) navIO.observe(s); });
+
+  // gallery slideshow: up to 10 photos, 2 per slide (5 slides)
+  (function(){
+    const track = document.getElementById('galleryTrack');
+    const dotsWrap = document.getElementById('galleryDots');
+    const prevBtn = document.getElementById('galleryPrev');
+    const nextBtn = document.getElementById('galleryNext');
+    const photoCount = 10;
+    const perSlide = 2;
+    const slideCount = Math.ceil(photoCount/perSlide);
+    const cameraIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-2h6l2 2h3v11H4z"/><circle cx="12" cy="13.5" r="3.5"/></svg>';
+    let html = '';
+    for(let s=0; s<slideCount; s++){
+      html += '<div class="gallery-slide">';
+      for(let p=0; p<perSlide; p++){
+        const idx = s*perSlide + p + 1;
+        const tint = idx % 2 ? 'var(--bg-card)' : 'color-mix(in srgb, var(--bg-card) 92%, var(--accent) 4%)';
+        html += '<div class="gallery-photo" style="background:'+tint+'">'+cameraIcon+'<span>Foto '+idx+'</span></div>';
+      }
+      html += '</div>';
+    }
+    track.innerHTML = html;
+
+    let dotsHtml = '';
+    for(let s=0; s<slideCount; s++){ dotsHtml += '<button class="dot'+(s===0?' active':'')+'" data-i="'+s+'" aria-label="Slide '+(s+1)+'"></button>'; }
+    dotsWrap.innerHTML = dotsHtml;
+    const dots = dotsWrap.querySelectorAll('.dot');
+
+    let current = 0;
+    function goTo(i){
+      current = (i + slideCount) % slideCount;
+      track.style.transform = 'translateX(-' + (current*100) + '%)';
+      dots.forEach((d,idx)=>d.classList.toggle('active', idx===current));
+    }
+    prevBtn.addEventListener('click', ()=>goTo(current-1));
+    nextBtn.addEventListener('click', ()=>goTo(current+1));
+    dots.forEach(d=>d.addEventListener('click', ()=>goTo(parseInt(d.dataset.i))));
+  })();
+
+  // cursor glow + tilt (fine pointers only)
+  if(window.matchMedia('(pointer:fine)').matches){
+    const glow = document.getElementById('glow');
+    document.addEventListener('mousemove', e=>{
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+      glow.style.opacity = '0.6';
+    });
+    document.addEventListener('mouseleave', ()=>{ glow.style.opacity = '0'; });
+
+    document.querySelectorAll('[data-tilt]').forEach(card=>{
+      card.style.transition = 'transform .4s ease';
+      card.addEventListener('mousemove', e=>{
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left)/r.width - .5;
+        const y = (e.clientY - r.top)/r.height - .5;
+        card.style.transition = 'transform .05s linear';
+        card.style.transform = 'perspective(700px) rotateX(' + (-y*6).toFixed(2) + 'deg) rotateY(' + (x*6).toFixed(2) + 'deg) translateY(-4px)';
+      });
+      card.addEventListener('mouseleave', ()=>{
+        card.style.transition = 'transform .4s ease';
+        card.style.transform = 'perspective(700px) rotateX(0) rotateY(0) translateY(0)';
+      });
+    });
+
+    const heroTitle = document.getElementById('heroTitle');
+    window.addEventListener('scroll', ()=>{
+      const y = window.scrollY;
+      if(y < 500){ heroTitle.style.transform = 'translateY(' + (y*0.12) + 'px)'; }
+    });
+  }
+</script>
+
+</body>
+</html>
